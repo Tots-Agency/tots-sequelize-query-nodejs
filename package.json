@@ -1,12 +1,12 @@
 {
   "name": "@tots/sequelize-query",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish": "tsc && npm publish"
+    "build-and-publish": "tsc && npm publish"
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
