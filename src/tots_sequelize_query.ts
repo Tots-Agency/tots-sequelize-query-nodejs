@@ -3,7 +3,7 @@ import { BaseWhere } from "./wheres/base.where";
 
 export class TotsSequelizeQuery {
 
-    wheres: Array<BaseWhere>;
+    wheres: Array<BaseWhere> = [];
     whereService: WhereService = new WhereService();
 
     constructor(protected model: any, protected filters: string) {
@@ -24,6 +24,10 @@ export class TotsSequelizeQuery {
             per_page: pageSize,
             total: count
         };
+    }
+
+    addWhere(where: BaseWhere) {
+        this.wheres.push(where);
     }
 
     protected processWheres(wheres: Array<any>) {
