@@ -10,9 +10,9 @@ export class TotsSequelizeQuery {
         this.processFilters(filters);
     }
 
-    async paginate(page: number, pageSize: number) {
-        
+    async paginateWithInclude(include: any, page: number, pageSize: number) {
         const { count, rows } = await this.model.findAndCountAll({
+            include: include,
             where: this.whereService.executes(this.wheres),
             offset: (page - 1) * pageSize,
             limit: pageSize,
@@ -24,6 +24,10 @@ export class TotsSequelizeQuery {
             per_page: pageSize,
             total: count
         };
+    }
+
+    async paginate(page: number, pageSize: number) {
+        return this.paginateWithInclude(undefined, page, pageSize);
     }
 
     addWhere(where: BaseWhere) {
