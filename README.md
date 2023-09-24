@@ -1,4 +1,4 @@
 # tots-sequelize-query-nodejs
 
 ## Publish library
-npm publish
+npm run build-and-publish
