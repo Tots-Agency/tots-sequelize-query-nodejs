@@ -1,9 +1,11 @@
 import { BaseWhere } from "../wheres/base.where";
 import { EqualWhere } from "../wheres/equal.where";
+import { InWhere } from "../wheres/in.where";
 
 export class WhereService {
     classMap = {
         'equal': EqualWhere,
+        'in': InWhere
     };
 
     executes(wheres?: Array<BaseWhere>): any {
