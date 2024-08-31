@@ -1,6 +1,6 @@
 {
   "name": "@tots/sequelize-query",
-  "version": "1.0.9",
+  "version": "1.0.12",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -17,12 +17,17 @@
     "url": "git+https://github.com/Tots-Agency/tots-sequelize-query-nodejs.git"
   },
   "keywords": [
-    "sequelize", "tots"
+    "sequelize",
+    "tots"
   ],
   "author": "Matias Camiletti",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Tots-Agency/tots-sequelize-query-nodejs/issues"
   },
-  "homepage": "https://github.com/Tots-Agency/tots-sequelize-query-nodejs#readme"
+  "homepage": "https://github.com/Tots-Agency/tots-sequelize-query-nodejs#readme",
+  "dependencies": {
+    "odata-sequelize": "^1.0.23",
+    "sequelize": "^6.37.3"
+  }
 }
