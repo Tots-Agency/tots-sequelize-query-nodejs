@@ -4,29 +4,53 @@ export class TotsOdataQuery {
 
     constructor(protected sequelize: any, protected model: any) { }
 
-    async paginateWithInclude(include: any, filters: string, page: number, pageSize: number) {
-        let query: any;
+    /**
+     * 
+     * @param include 
+     * @param filters 
+     * @param top Limit the number of items returned.
+     * @param skip Skip the number of items returned.
+     * @returns 
+     */
+    async paginateWithInclude(include: any, filters: string, top: number, skip: number, orderBy: string = '') {
+        let odataString = '';
         if(filters != '' && filters.length > 0){
-            query = parseOData(filters, this.sequelize);
+            odataString = filters;
+        }
+        if(orderBy != '' && orderBy.length > 0){
+            odataString += '&$orderby=' + orderBy;
+        }
+
+        let query: any;
+        if(odataString != '' && odataString.length > 0){
+            query = parseOData(TotsOdataQuery.processFilters(filters), this.sequelize);
         }
 
         const { count, rows } = await this.model.findAndCountAll({
             include: include,
-            where: query.where ?? null,
-            offset: (page - 1) * pageSize,
-            limit: pageSize,
+            where: query?.where ?? null,
+            order: query?.order ?? null,
+            offset: skip,
+            limit: top,
         });
 
         return {
-            current_page: page,
+            current_page: (skip / top) + 1,
             data: rows,
-            per_page: pageSize,
+            per_page: top,
             total: count
         };
     }
 
-    async paginate(filters: string, page: number, pageSize: number) {
-        return this.paginateWithInclude(undefined, filters, page, pageSize);
+    /**
+     * 
+     * @param filters 
+     * @param top Limit the number of items returned.
+     * @param skip Skip the number of items returned.
+     * @returns 
+     */
+    async paginate(filters: string, top: number, skip: number, orderBy: string = '') {
+        return this.paginateWithInclude(undefined, filters, top, skip, orderBy);
     }
 
     static prependFilters(prepend: string, filters: string): string {
@@ -36,5 +60,13 @@ export class TotsOdataQuery {
           result += ' and (' + processedFilters + ')';
         }
         return result;
-      }
+    }
+
+    static processFilters(filters: string): string {
+        // Verify if start with $filter
+        if(filters.startsWith('$filter=')) {
+          return filters;
+        }
+        return '$filter=' + filters;
+    }
 }
