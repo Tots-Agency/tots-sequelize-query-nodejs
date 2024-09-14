@@ -23,7 +23,7 @@ export class TotsOdataQuery {
 
         let query: any;
         if(odataString != '' && odataString.length > 0){
-            query = parseOData(TotsOdataQuery.processFilters(filters), this.sequelize);
+            query = parseOData(TotsOdataQuery.processFilters(odataString), this.sequelize);
         }
 
         const { count, rows } = await this.model.findAndCountAll({
