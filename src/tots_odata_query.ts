@@ -1,4 +1,4 @@
-import parseOData = require("odata-sequelize");
+import parseOData from "odata-sequelize";
 
 export interface TotsOdataOptions {
     filters?: string;
