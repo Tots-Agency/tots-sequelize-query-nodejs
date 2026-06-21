@@ -17,6 +17,10 @@ export abstract class BaseRepository<T extends Model> {
         return this.model.create(data);
     }
 
+    public bulkCreate(data: any[], options?: any): Promise<T[]> {
+        return this.model.bulkCreate(data, options);
+    }
+
     async update(id: any, data: any): Promise<T | null> {
         await this.model.update(data, { where: { id: id } });
         return this.findOne(id);
