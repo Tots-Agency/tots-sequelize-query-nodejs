@@ -3,7 +3,7 @@ import { EqualWhere } from "../wheres/equal.where";
 import { InWhere } from "../wheres/in.where";
 
 export class WhereService {
-    classMap = {
+    classMap: Record<string, any> = {
         'equal': EqualWhere,
         'in': InWhere
     };

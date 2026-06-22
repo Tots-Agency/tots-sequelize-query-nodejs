@@ -8,7 +8,7 @@ export class EqualWhere extends BaseWhere {
         this.value = data.value;
     }
 
-    execute(wheres) {
+    execute(wheres: any) {
         wheres[this.key] = this.value;
     }
 }

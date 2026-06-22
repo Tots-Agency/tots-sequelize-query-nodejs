@@ -1,5 +1,5 @@
 export abstract class BaseWhere {
-    type: string;
+    type: string = '';
     key: any;
     value: any;
 

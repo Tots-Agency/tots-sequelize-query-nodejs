@@ -75,11 +75,11 @@ export class TotsOdataQuery {
 
     async execWithOptions(options: TotsOdataOptions) {
         let odataString = '';
-        if (options?.filters != '' && options?.filters.length > 0) {
-            odataString = options?.filters;
+        if (options.filters && options.filters.length > 0) {
+            odataString = options.filters;
         }
-        if (options?.orderBy != '' && options?.orderBy.length > 0) {
-            odataString += '&$orderby=' + options?.orderBy;
+        if (options.orderBy && options.orderBy.length > 0) {
+            odataString += '&$orderby=' + options.orderBy;
         }
 
         let query: any;
@@ -87,18 +87,21 @@ export class TotsOdataQuery {
             query = parseOData(TotsOdataQuery.processFilters(odataString), this.sequelize);
         }
 
+        const skip = options.skip ?? 0;
+        const top = options.top ?? 50;
+
         const { count, rows } = await this.model.findAndCountAll({
-            include: options?.include,
+            include: options.include,
             where: query?.where ?? null,
             order: query?.order ?? null,
-            offset: options?.skip,
-            limit: options?.top,
+            offset: skip,
+            limit: top,
         });
 
         return {
-            current_page: (options?.skip / options?.top) + 1,
-            data: options?.dto != undefined ? rows.map((row: any) => options?.dto.fromModel(row)) : rows,
-            per_page: options?.top,
+            current_page: (skip / top) + 1,
+            data: options.dto != undefined ? rows.map((row: any) => options.dto.fromModel(row)) : rows,
+            per_page: top,
             total: count
         };
     }
